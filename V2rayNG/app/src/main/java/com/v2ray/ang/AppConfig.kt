@@ -44,6 +44,34 @@ object AppConfig {
     const val PREF_FRAGMENT_LENGTH = "pref_fragment_length"
     const val PREF_FRAGMENT_INTERVAL = "pref_fragment_interval"
     const val PREF_FRAGMENT_MAXSPLIT = "pref_fragment_maxsplit"
+
+    // GozarTahrim (گذرتحریم) random-chunk fragmentation options
+    // gt_native: use the in-app Kotlin TLS_Fragmentor local proxy (exact GozarTahrim behaviour)
+    // gt_num_fragment / gt_fragment_sleep: number of random chunks the TLS ClientHello is split into, and delay between them
+    const val PREF_GT_ENABLED = "pref_gt_enabled"
+    const val PREF_GT_NATIVE_PROXY = "pref_gt_native_proxy"
+    const val PREF_GT_NUM_FRAGMENT = "pref_gt_num_fragment"
+    const val PREF_GT_FRAGMENT_SLEEP = "pref_gt_fragment_sleep"
+
+    // GozarTahrim: Alt IP Finder (Cloudflare ranges + FOFA search)
+    const val PREF_GT_ALTIP_FOFA_KEY = "pref_gt_altip_fofa_key"
+    const val PREF_GT_ALTIP_COUNTRY = "pref_gt_altip_country"
+    const val PREF_GT_ALTIP_QUERY = "pref_gt_altip_query"
+    const val PREF_GT_ALTIP_SAMPLE_COUNT = "pref_gt_altip_sample_count"
+    const val PREF_GT_ALTIP_CONCURRENCY = "pref_gt_altip_concurrency"
+    const val PREF_GT_ALTIP_TIMEOUT_MS = "pref_gt_altip_timeout_ms"
+
+    // GozarTahrim: auto-connect to the best server of the active subscription group
+    const val PREF_GT_AUTOCONNECT_ENABLED = "pref_gt_autoconnect_enabled"
+    const val PREF_GT_AUTOCONNECT_INTERVAL = "pref_gt_autoconnect_interval_minutes"
+    const val PREF_GT_AUTOCONNECT_BATCH = "pref_gt_autoconnect_batch_size"
+    const val PREF_GT_AUTOCONNECT_LAST_CHECK = "pref_gt_autoconnect_last_check"
+
+    // GozarTahrim: Telegram channel notifications
+    const val PREF_GT_TG_ENABLED = "pref_gt_tg_enabled"
+    const val PREF_GT_TG_CHANNEL = "pref_gt_tg_channel"
+    const val PREF_GT_TG_LAST_POST_ID = "pref_gt_tg_last_post_id"
+
     const val PREF_OBSERVATORY_LEAST_PING_INTERVAL = "pref_observatory_least_ping_interval"
     const val PREF_OBSERVATORY_LEAST_LOAD_INTERVAL = "pref_observatory_least_load_interval"
     const val PREF_OBSERVATORY_LEAST_LOAD_METHOD = "pref_observatory_least_load_method"

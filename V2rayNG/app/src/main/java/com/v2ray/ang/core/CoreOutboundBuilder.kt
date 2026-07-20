@@ -587,7 +587,11 @@ object CoreOutboundBuilder {
      */
     private fun updateOutboundFragment(streamSettings: OutboundBean.StreamSettingsBean): Boolean {
         try {
-            if (MmkvManager.decodeSettingsBool(AppConfig.PREF_FRAGMENT_ENABLED, false) == false) {
+            // GozarTahrim (گذرتحریم): random-chunk ClientHello fragmentation, mapped onto
+            // Xray's native fragment engine so it works end-to-end without a device dependency.
+            val gtEnabled = MmkvManager.decodeSettingsBool(AppConfig.PREF_GT_ENABLED, false) == true
+            val fragmentEnabled = MmkvManager.decodeSettingsBool(AppConfig.PREF_FRAGMENT_ENABLED, false) == true
+            if (!gtEnabled && !fragmentEnabled) {
                 return true
             }
             if (streamSettings.security != AppConfig.TLS
@@ -607,16 +611,30 @@ object CoreOutboundBuilder {
                 packets = "1-3"
             }
 
+            var fragmentLength = MmkvManager.decodeSettingsString(AppConfig.PREF_FRAGMENT_LENGTH) ?: "50-100"
+            var fragmentDelay = MmkvManager.decodeSettingsString(AppConfig.PREF_FRAGMENT_INTERVAL) ?: "10-20"
+            var fragmentMaxSplit = MmkvManager.decodeSettingsString(AppConfig.PREF_FRAGMENT_MAXSPLIT) ?: "10"
+
+            // GozarTahrim overrides: split the TLS ClientHello into `num_fragment` tiny random
+            // chunks (length 1-3 bytes) with `fragment_sleep` delay between them — the same
+            // heavy random-chunk pattern as the original GozarTahrim proxy (num_fragment=67).
+            if (gtEnabled) {
+                packets = "tlshello"
+                val numFragment = MmkvManager.decodeSettingsString(AppConfig.PREF_GT_NUM_FRAGMENT)?.toIntOrNull() ?: 67
+                // fragment_sleep stored in milliseconds (GozarTahrim default ~1ms)
+                val sleepMs = MmkvManager.decodeSettingsString(AppConfig.PREF_GT_FRAGMENT_SLEEP)?.toIntOrNull() ?: 1
+                fragmentLength = "1-3"
+                fragmentMaxSplit = numFragment.coerceIn(2, 500).toString()
+                fragmentDelay = "${sleepMs.coerceAtLeast(0)}-${(sleepMs + 1).coerceAtLeast(1)}"
+            }
+
             val fragmentMask = OutboundBean.StreamSettingsBean.FinalMaskBean.MaskBean(
                 type = "fragment",
                 settings = OutboundBean.StreamSettingsBean.FinalMaskBean.MaskBean.MaskSettingsBean(
                     packets = packets,
-                    length = MmkvManager.decodeSettingsString(AppConfig.PREF_FRAGMENT_LENGTH)
-                        ?: "50-100",
-                    delay = MmkvManager.decodeSettingsString(AppConfig.PREF_FRAGMENT_INTERVAL)
-                        ?: "10-20",
-                    maxSplit = MmkvManager.decodeSettingsString(AppConfig.PREF_FRAGMENT_MAXSPLIT)
-                        ?: "10"
+                    length = fragmentLength,
+                    delay = fragmentDelay,
+                    maxSplit = fragmentMaxSplit
                 )
             )
             val noiseMask = OutboundBean.StreamSettingsBean.FinalMaskBean.MaskBean(

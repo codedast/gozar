@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">v2rayNG</string>
+    <string name="app_name" translatable="false">GOZARTAHRIM | گذرتحریم</string>
     <string name="app_widget_name">Switch</string>
     <string name="app_tile_name">Switch</string>
     <string name="app_tile_first_use">First use of this feature, please use the app to add server</string>
@@ -380,6 +380,55 @@
 
     <string name="import_subscription_success">Subscription imported Successfully</string>
     <string name="import_subscription_failure">Import subscription failed</string>
+    <string name="title_gt_alt_ip_finder">Alt IP Finder</string>
+    <string name="title_gt_auto_connect_group">Auto-connect to the best server in this group</string>
+    <string name="summary_gt_auto_connect_group">Periodically tests this group\'s servers and switches to a faster one automatically</string>
+    <string name="title_gt_tg_channel_news">Channel news</string>
+
+    <string name="title_gt_extras_settings">GozarTahrim Extras</string>
+    <string name="title_pref_gt_tg_enabled">Telegram channel notifications</string>
+    <string name="summary_pref_gt_tg_enabled">Notify me about new posts in the GozarTahrim channel</string>
+    <string name="title_pref_gt_tg_channel">Channel username</string>
+    <string name="title_pref_gt_autoconnect_interval">Auto-connect check interval (minutes)</string>
+    <string name="title_pref_gt_autoconnect_batch">Servers tested per check</string>
+    <string name="title_pref_gt_altip_fofa_key">Custom FOFA API key (optional)</string>
+    <string name="title_pref_gt_altip_timeout">Alt IP test timeout (ms)</string>
+
+    <!-- Alt IP Finder screen -->
+    <string name="gt_altip_no_server">No server selected. Please select a server first.</string>
+    <string name="gt_altip_unsupported">This feature only works for VLESS servers behind Cloudflare.</string>
+    <string name="gt_altip_server_label">Server: %1$s</string>
+    <string name="gt_altip_sni_label">SNI: %1$s</string>
+    <string name="gt_altip_query">FOFA query</string>
+    <string name="gt_altip_sample_count">Samples per source</string>
+    <string name="gt_altip_concurrency">Test concurrency</string>
+    <string name="gt_altip_start">Start search</string>
+    <string name="gt_altip_cancel">Cancel</string>
+    <string name="gt_altip_progress">%1$d / %2$d tested</string>
+    <string name="gt_altip_cancelled">Cancelled</string>
+    <string name="gt_altip_fetching_cf">Fetching Cloudflare ranges…</string>
+    <string name="gt_altip_searching_fofa">Searching FOFA…</string>
+    <string name="gt_altip_none_found">No IPs found. If you are not connected, connect to a server first — cloudflare.com and fofa.info are filtered.</string>
+    <string name="gt_altip_testing">Testing %1$d IPs</string>
+    <string name="gt_altip_saved">Saved %1$d working IP(s) into the group “%2$s”.</string>
+    <string name="gt_altip_none_valid">No working IPs found.</string>
+    <string name="gt_altip_error">Error: %1$s</string>
+
+    <!-- Channel / support popup -->
+    <string name="gt_promo_message">For support and to buy a service, join our channel or message us directly.</string>
+    <string name="gt_promo_handles">Channel: @%1$s\nBot: @%2$s\nAdmin: @%3$s</string>
+    <string name="gt_promo_channel">Telegram channel</string>
+    <string name="gt_promo_bot">Buy service (bot)</string>
+    <string name="gt_promo_admin">Support (admin)</string>
+    <string name="gt_promo_close">Close</string>
+
+    <string name="title_gt_settings">GozarTahrim Fragment</string>
+    <string name="title_pref_gt_enabled">Enable GozarTahrim</string>
+    <string name="summary_pref_gt_enabled">Split the TLS ClientHello into many random chunks to bypass SNI-based DPI filtering</string>
+    <string name="title_pref_gt_num_fragment">Number of chunks (num_fragment)</string>
+    <string name="title_pref_gt_fragment_sleep">Delay between chunks (ms)</string>
+    <string name="title_pref_gt_native_proxy">Use native fragmentor engine</string>
+    <string name="summary_pref_gt_native_proxy">Run the in-app GozarTahrim TCP fragmentor locally (experimental) instead of the Xray engine</string>
     <string name="title_fragment_settings">Fragment Settings</string>
     <string name="title_pref_fragment_packets">Fragment Packets</string>
     <string name="title_pref_fragment_length">Fragment Length (min-max)</string>

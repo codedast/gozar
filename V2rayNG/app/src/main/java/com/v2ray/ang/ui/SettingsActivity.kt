@@ -85,6 +85,21 @@ fun SettingsScreen(
     var fragmentLength by rememberMmkvString(AppConfig.PREF_FRAGMENT_LENGTH, "50-100")
     var fragmentInterval by rememberMmkvString(AppConfig.PREF_FRAGMENT_INTERVAL, "10-20")
     var fragmentMaxSplit by rememberMmkvString(AppConfig.PREF_FRAGMENT_MAXSPLIT, "10")
+
+    // GozarTahrim (گذرتحریم) random-chunk fragmentation
+    var gtEnabled by rememberMmkvBool(AppConfig.PREF_GT_ENABLED, false)
+    var gtNativeProxy by rememberMmkvBool(AppConfig.PREF_GT_NATIVE_PROXY, false)
+    var gtNumFragment by rememberMmkvString(AppConfig.PREF_GT_NUM_FRAGMENT, "67")
+    var gtFragmentSleep by rememberMmkvString(AppConfig.PREF_GT_FRAGMENT_SLEEP, "1")
+
+    // GozarTahrim extras: Telegram notifications, auto-connect, Alt IP Finder
+    var gtTgEnabled by rememberMmkvBool(AppConfig.PREF_GT_TG_ENABLED, true)
+    var gtTgChannel by rememberMmkvString(AppConfig.PREF_GT_TG_CHANNEL, com.v2ray.ang.gozartahrim.GT_CHANNEL_NAME)
+    var gtAutoConnectInterval by rememberMmkvString(AppConfig.PREF_GT_AUTOCONNECT_INTERVAL, "30")
+    var gtAutoConnectBatch by rememberMmkvString(AppConfig.PREF_GT_AUTOCONNECT_BATCH, "5")
+    var gtAltIpFofaKey by rememberMmkvString(AppConfig.PREF_GT_ALTIP_FOFA_KEY, "")
+    var gtAltIpTimeout by rememberMmkvString(AppConfig.PREF_GT_ALTIP_TIMEOUT_MS, "5000")
+
     var observatoryLeastPingInterval by rememberMmkvString(AppConfig.PREF_OBSERVATORY_LEAST_PING_INTERVAL, AppConfig.OBSERVATORY_LEAST_PING_INTERVAL)
     var observatoryLeastLoadInterval by rememberMmkvString(AppConfig.PREF_OBSERVATORY_LEAST_LOAD_INTERVAL, AppConfig.OBSERVATORY_LEAST_LOAD_INTERVAL)
     var observatoryLeastLoadMethod by rememberMmkvString(AppConfig.PREF_OBSERVATORY_LEAST_LOAD_METHOD, AppConfig.OBSERVATORY_LEAST_LOAD_METHOD)
@@ -452,6 +467,72 @@ fun SettingsScreen(
                 selectedValue = muxXudpQuic,
                 enabled = mux && muxXudpConcurrencyInt >= 0,
                 onSelected = { muxXudpQuic = it }
+            )
+
+            PreferenceGroupHeader(title = stringResource(R.string.title_gt_settings))
+            SettingsSwitchItem(
+                title = stringResource(R.string.title_pref_gt_enabled),
+                summary = stringResource(R.string.summary_pref_gt_enabled),
+                checked = gtEnabled,
+                onCheckedChange = { gtEnabled = it }
+            )
+            SettingsEditItem(
+                title = stringResource(R.string.title_pref_gt_num_fragment),
+                value = gtNumFragment,
+                enabled = gtEnabled,
+                keyboardNumber = true,
+                onValueChanged = { gtNumFragment = it }
+            )
+            SettingsEditItem(
+                title = stringResource(R.string.title_pref_gt_fragment_sleep),
+                value = gtFragmentSleep,
+                enabled = gtEnabled,
+                keyboardNumber = true,
+                onValueChanged = { gtFragmentSleep = it }
+            )
+            SettingsSwitchItem(
+                title = stringResource(R.string.title_pref_gt_native_proxy),
+                summary = stringResource(R.string.summary_pref_gt_native_proxy),
+                checked = gtNativeProxy,
+                enabled = gtEnabled,
+                onCheckedChange = { gtNativeProxy = it }
+            )
+
+            PreferenceGroupHeader(title = stringResource(R.string.title_gt_extras_settings))
+            SettingsSwitchItem(
+                title = stringResource(R.string.title_pref_gt_tg_enabled),
+                summary = stringResource(R.string.summary_pref_gt_tg_enabled),
+                checked = gtTgEnabled,
+                onCheckedChange = { gtTgEnabled = it }
+            )
+            SettingsEditItem(
+                title = stringResource(R.string.title_pref_gt_tg_channel),
+                value = gtTgChannel,
+                enabled = gtTgEnabled,
+                onValueChanged = { gtTgChannel = it }
+            )
+            SettingsEditItem(
+                title = stringResource(R.string.title_pref_gt_autoconnect_interval),
+                value = gtAutoConnectInterval,
+                keyboardNumber = true,
+                onValueChanged = { gtAutoConnectInterval = it }
+            )
+            SettingsEditItem(
+                title = stringResource(R.string.title_pref_gt_autoconnect_batch),
+                value = gtAutoConnectBatch,
+                keyboardNumber = true,
+                onValueChanged = { gtAutoConnectBatch = it }
+            )
+            SettingsEditItem(
+                title = stringResource(R.string.title_pref_gt_altip_fofa_key),
+                value = gtAltIpFofaKey,
+                onValueChanged = { gtAltIpFofaKey = it }
+            )
+            SettingsEditItem(
+                title = stringResource(R.string.title_pref_gt_altip_timeout),
+                value = gtAltIpTimeout,
+                keyboardNumber = true,
+                onValueChanged = { gtAltIpTimeout = it }
             )
 
             PreferenceGroupHeader(title = stringResource(R.string.title_fragment_settings))

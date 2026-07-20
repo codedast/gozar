@@ -14,5 +14,8 @@ data class SubscriptionItem(
     var allowInsecureUrl: Boolean = false,
     var userAgent: String? = null,
     var requestHeaders: String? = null,
+    // GozarTahrim: opt in this group to periodic "connect to the best server" checks.
+    // Deliberately per-group — never a blanket toggle across every subscription.
+    var autoConnectEnabled: Boolean = false,
 )
 

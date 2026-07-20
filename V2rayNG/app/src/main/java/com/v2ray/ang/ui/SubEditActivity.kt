@@ -141,6 +141,7 @@ fun SubEditScreen(
     var allowInsecureUrl by rememberSaveable { mutableStateOf(initial.allowInsecureUrl) }
     var prevProfile by rememberSaveable { mutableStateOf(initial.prevProfile ?: "") }
     var nextProfile by rememberSaveable { mutableStateOf(initial.nextProfile ?: "") }
+    var autoConnectEnabled by rememberSaveable { mutableStateOf(initial.autoConnectEnabled) }
 
     var showDeleteConfirm by rememberSaveable { mutableStateOf(false) }
     val confirmRemove = MmkvManager.decodeSettingsBool(AppConfig.PREF_CONFIRM_REMOVE, false)
@@ -159,6 +160,7 @@ fun SubEditScreen(
         subItem.prevProfile = prevProfile
         subItem.nextProfile = nextProfile
         subItem.allowInsecureUrl = allowInsecureUrl
+        subItem.autoConnectEnabled = autoConnectEnabled
         return subItem
     }
 
@@ -220,6 +222,12 @@ fun SubEditScreen(
                 title = stringResource(R.string.sub_allow_insecure_url),
                 checked = allowInsecureUrl,
                 onCheckedChange = { allowInsecureUrl = it }
+            )
+            SettingsSwitchItem(
+                title = stringResource(R.string.title_gt_auto_connect_group),
+                summary = stringResource(R.string.summary_gt_auto_connect_group),
+                checked = autoConnectEnabled,
+                onCheckedChange = { autoConnectEnabled = it }
             )
             FormDropdownField(
                 label = stringResource(R.string.sub_setting_pre_profile),

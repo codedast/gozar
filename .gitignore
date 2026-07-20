@@ -64,3 +64,7 @@ V2rayNG/app/google-services.json
 # Ignore OS-specific files
 Thumbs.db
 .DS_Store
+
+# Native artifacts produced by compile-hevtun.sh (rebuild them, don't commit them)
+/libs/
+hev-socks5-tunnel-bin

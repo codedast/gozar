@@ -1,90 +1,167 @@
-# v2rayNG
+# GOZARTAHRIM | گذرتحریم
 
-A V2Ray client for Android, support [Xray core](https://github.com/XTLS/Xray-core) and [v2fly core](https://github.com/v2fly/v2ray-core)
+### فورکی از v2rayNG برای اندروید، با قابلیت‌های اضافه مخصوص عبور از فیلترینگ
+### An Android fork of [v2rayNG](https://github.com/2dust/v2rayNG) with extra features built to bypass internet censorship
 
-[![API](https://img.shields.io/badge/API-24%2B-yellow.svg?style=flat)](https://developer.android.com/about/versions/lollipop)
-[![Kotlin Version](https://img.shields.io/badge/Kotlin-2.4.0-blue.svg)](https://kotlinlang.org)
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/2dust/v2rayNG)](https://github.com/2dust/v2rayNG/commits/master)
-[![CodeFactor](https://www.codefactor.io/repository/github/2dust/v2rayng/badge)](https://www.codefactor.io/repository/github/2dust/v2rayng)
-[![GitHub Releases](https://img.shields.io/github/downloads/2dust/v2rayNG/latest/total?logo=github)](https://github.com/2dust/v2rayNG/releases)
-[![Chat on Telegram](https://img.shields.io/badge/Chat%20on-Telegram-brightgreen.svg)](https://t.me/v2rayn)
+[![Telegram Channel](https://img.shields.io/badge/Telegram-gozartahrim-26A5E4?logo=telegram)](https://t.me/gozartahrim)
+[![API](https://img.shields.io/badge/API-24%2B-yellow.svg?style=flat)](https://developer.android.com/about/versions/nougat)
+[![Releases](https://img.shields.io/github/v/release/codedast/gozar?logo=github&label=Release)](https://github.com/codedast/gozar/releases)
 
 ---
 
-## Download / 下载
+## دانلود / Download
 
-Download the latest release here:
+آخرین نسخه را از بخش Releases دانلود کنید:
 
-在这里下载最新版本：
+Download the latest build from the Releases page:
 
-[https://github.com/2dust/v2rayNG/releases](https://github.com/2dust/v2rayNG/releases)
+**[https://github.com/codedast/gozar/releases](https://github.com/codedast/gozar/releases)**
 
-> [!TIP]
-> v2rayNG is the mobile version. For the desktop version, please visit the v2rayN \
-> v2rayNG 是手机版，电脑版请访问 v2rayN
->
-> https://github.com/2dust/v2rayN
+| فایل / File | مناسب برای / For |
+| --- | --- |
+| `GozarTahrim-*-arm64-v8a.apk` | اکثر گوشی‌های امروزی (پیشنهادی) / Most modern phones (recommended) |
+| `GozarTahrim-*-armeabi-v7a.apk` | گوشی‌های قدیمی‌تر ۳۲‑بیتی / Older 32-bit devices |
+| `GozarTahrim-*-universal.apk` | همه‌ی معماری‌ها، حجیم‌تر / All ABIs, larger file |
+
+حداقل نسخه‌ی اندروید: ۷.۰ (API 24) — Minimum Android version: 7.0 (API 24)
+
+---
+
+## قابلیت‌های اضافه‌شده نسبت به v2rayNG اصلی
+
+### ۱. تکه‌تکه‌سازی گذرتحریم (GozarTahrim Fragment)
+
+روی برخی اپراتورهای ایران SNI سرور فیلتر می‌شود و اتصال پیش از برقراری قطع می‌گردد. این قابلیت بسته‌ی `ClientHello` را — که SNI داخل آن است — به تعداد زیادی تکه‌ی تصادفی می‌شکند تا سامانه‌ی DPI نتواند نام دامنه را بازسازی و تشخیص دهد.
+
+**تنظیمات ← GozarTahrim Fragment**
+
+| گزینه | توضیح | پیش‌فرض |
+| --- | --- | --- |
+| فعال‌سازی گذرتحریم | روشن کردن تکه‌تکه‌سازی | خاموش |
+| تعداد تکه‌ها | ClientHello به چند تکه شکسته شود | ۶۷ |
+| تأخیر بین تکه‌ها | فاصله‌ی زمانی هر تکه (میلی‌ثانیه) | ۱ |
+| موتور تکه‌کننده‌ی داخلی | استفاده از تکه‌کننده‌ی Kotlin به‌جای موتور Xray (آزمایشی) | خاموش |
+
+مقادیر «تعداد تکه‌ها» و «تأخیر» روی موتور fragment داخلی Xray نگاشت می‌شوند (`length=1-3`، `maxSplit=تعداد تکه‌ها`، `interval=تأخیر`) — همان الگوی random-chunk پروژه‌ی اصلی گذرتحریم، ولی داخل هسته‌ی Go که پایدارتر و سریع‌تر است.
+
+> گزینه‌ی «موتور تکه‌کننده‌ی داخلی» فعلاً آزمایشی است: پروکسی محلی اجرا می‌شود، ولی مسیر داده‌ی اصلی همچنان از موتور Xray عبور می‌کند.
+
+### ۲. یافتن آی‌پی جایگزین (Alt IP Finder)
+
+وقتی آی‌پی سرور VLESS پشت Cloudflare کند یا فیلتر شده باشد، می‌توانید آی‌پی‌های جایگزین پیدا کنید.
+
+**منوی کشویی (☰) ← یافتن آی‌پی جایگزین**
+
+- آی‌پی از دو منبع جمع می‌شود: **محدوده‌های رسمی IPv4 کلادفلر** و **جستجوی FOFA**
+- پرست کشورها با اولویت: ★ ایران، آمریکا، ترکیه، آلمان، انگلیس، چین + حدود ۵۰ کشور دیگر
+- عبارت جستجوی FOFA قابل ویرایش دستی است
+- هر آی‌پی با **اتصال TCP و دست‌دادن کامل TLS** روی SNI اصلی سرور تست و تأخیرش اندازه‌گیری می‌شود
+- آی‌پی‌های سالم در یک گروه ساب‌اسکریپشن جدید با نام `{۴ حرف اول} IPs` ذخیره می‌شوند؛ منبع هر آی‌پی با `CL` (کلادفلر) یا `F` (فوفا) مشخص می‌شود
+- SNI و Host دست‌نخورده می‌مانند، پس TLS همچنان دامنه‌ی اصلی را هدف می‌گیرد
+
+> چون دسترسی به `cloudflare.com` و `fofa.info` معمولاً فیلتر است، ابتدا به یک سرور سالم وصل شوید؛ برنامه درخواست‌ها را از تونل خودتان عبور می‌دهد.
+
+### ۳. اتصال خودکار به بهترین سرور
+
+برای هر گروه ساب‌اسکریپشن **جداگانه** فعال می‌شود، نه با یک کلید سراسری.
+
+**ویرایش ساب‌اسکریپشن ← «اتصال خودکار به بهترین سرور این گروه»**
+
+برنامه به‌صورت دوره‌ای سرورهای آن گروه را تست تأخیر می‌کند و اگر سروری محسوس‌تر از سرور فعلی بهتر بود، خودکار به آن سوییچ می‌کند.
+
+**تنظیمات ← امکانات گذرتحریم**
+
+| گزینه | پیش‌فرض |
+| --- | --- |
+| فاصله‌ی هر بررسی (دقیقه) | ۳۰ |
+| تعداد سرور تست‌شده در هر بررسی | ۵ |
+
+### ۴. اعلان پست‌های کانال تلگرام
+
+هر پست جدید کانال [@gozartahrim](https://t.me/gozartahrim) به‌صورت نوتیفیکیشن اندرویدی نمایش داده می‌شود؛ با لمس آن، پست باز می‌شود.
+
+- بدون نیاز به بات یا توکن — صفحه‌ی پیش‌نمایش عمومی کانال خوانده می‌شود
+- بررسی **بلافاصله پس از هر اتصال موفق** و هر ۱۵ دقیقه در پس‌زمینه
+- چون تلگرام فیلتر است، این قابلیت فقط وقتی تونل برقرار باشد کار می‌کند
+- نام کانال از تنظیمات قابل تغییر است
+
+### ۵. برندسازی مجدد و بومی‌سازی
+
+نام و آیکون برنامه به گذرتحریم تغییر کرده و تمام صفحه‌های اضافه‌شده به‌طور کامل فارسی و انگلیسی شده‌اند.
+
+---
+
+## Features added on top of upstream v2rayNG
+
+- **GozarTahrim Fragment** — splits the TLS `ClientHello` into many small random chunks so SNI-based DPI cannot reassemble the hostname. Configurable chunk count and inter-chunk delay, mapped onto Xray-core's native fragment engine.
+- **Alt IP Finder** — finds alternate Cloudflare front-IPs for a VLESS profile from Cloudflare's official IPv4 ranges and from FOFA search, with priority country presets, TCP+TLS validation against the original SNI, and automatic saving of working IPs into a new subscription group.
+- **Auto-connect to the best server** — opt-in per subscription group; periodically delay-tests the group's servers and switches when a meaningfully better one is found.
+- **Telegram channel notifications** — native notifications for new posts on the project channel, with no bot or token required.
+- **Rebranding & localisation** — GozarTahrim name and icon, plus full Persian/English translation of every added screen.
+
+---
+
+## ساخت از سورس / Building from source
+
+```bash
+git clone --recursive https://github.com/codedast/gozar.git
+cd gozar
+```
+
+نیازمندی‌ها / Requirements:
+
+- JDK 17 یا بالاتر / JDK 17+
+- Android SDK: platform-37، build-tools 37.0.0
+- Android NDK `29.0.14206865` (فقط برای ساخت libhevtun / only needed for libhevtun)
+
+مراحل / Steps:
+
+```bash
+# 1) هسته / core: download libv2ray.aar from the AndroidLibXrayLite releases
+#    and place it in V2rayNG/app/libs/
+
+# 2) تونل / tunnel library
+export NDK_HOME=/path/to/android-ndk-r29
+bash compile-hevtun.sh          # Linux / macOS
+bash compile-hevtun-win.sh      # Windows (copies instead of symlinking)
+cp -r libs/* V2rayNG/app/libs/
+
+# 3) ساخت APK / build the APK
+cd V2rayNG
+./gradlew assembleFdroidDebug
+```
+
+خروجی در `V2rayNG/app/build/outputs/apk/` قرار می‌گیرد.
+
+> **ساخت از داخل ایران / Building from Iran:** دامنه‌ی `dl.google.com` روی بیشتر اپراتورهای ایران فیلتر است. به همین دلیل مخازن Gradle در `settings.gradle.kts` به آینه‌ی Aliyun هدایت شده‌اند، و بسته‌های SDK/NDK را می‌توانید از آینه‌ی Tencent بگیرید:
+> ```bash
+> export SDK_TEST_BASE_URL="https://mirrors.cloud.tencent.com/AndroidSDK/"
+> ```
 
 ---
 
 ### Geoip and Geosite
 
-- geoip.dat and geosite.dat files are in `Android/data/com.v2ray.ang/files/assets` (path may differ on some Android device)
-- download feature will get enhanced version in this [repo](https://github.com/Loyalsoldier/v2ray-rules-dat) (note: it needs a working proxy)
-- latest official [domain list](https://github.com/Loyalsoldier/v2ray-rules-dat) and [ip list](https://github.com/Loyalsoldier/geoip) can be imported manually
-- possible to use a third-party dat file in the same folder, like [h2y](https://guide.v2fly.org/routing/sitedata.html#%E5%A4%96%E7%BD%AE%E7%9A%84%E5%9F%9F%E5%90%8D%E6%96%87%E4%BB%B6)
-
-More in our [wiki](https://github.com/2dust/v2rayNG/wiki)
-
-### Geoip 与 Geosite
-
-- geoip.dat 和 geosite.dat 文件位于 `Android/data/com.v2ray.ang/files/assets`（部分设备路径可能不同）
-- 下载功能将获取该 [仓库](https://github.com/Loyalsoldier/v2ray-rules-dat) 中的增强版本（注意：此功能需要一个可用的代理）
-- 最新官方 [域名列表](https://github.com/Loyalsoldier/v2ray-rules-dat) 和 [IP 列表](https://github.com/Loyalsoldier/geoip) 可手动导入
-- 也可在同一文件夹中使用第三方 dat 文件，例如 [h2y](https://guide.v2fly.org/routing/sitedata.html#%E5%A4%96%E7%BD%AE%E7%9A%84%E5%9F%9F%E5%90%8D%E6%96%87%E4%BB%B6)
-
-更多内容请见我们的 [wiki](https://github.com/2dust/v2rayNG/wiki)
+- `geoip.dat` and `geosite.dat` live in `Android/data/com.v2ray.ang/files/assets` (the path may differ on some devices)
+- the in-app download feature fetches the enhanced versions from [this repo](https://github.com/Loyalsoldier/v2ray-rules-dat) — it needs a working proxy
+- more details in the [upstream wiki](https://github.com/2dust/v2rayNG/wiki)
 
 ---
 
-## Development guide / 开发指南
+## کامیونیتی / Community
 
-### Note
-
-- Android project under the V2rayNG folder can be compiled directly in Android Studio, or using the Gradle wrapper. But the v2ray core inside the aar is (probably) outdated.
-- The aar can be compiled from the Golang project [AndroidLibV2rayLite](https://github.com/2dust/AndroidLibV2rayLite) or [AndroidLibXrayLite](https://github.com/2dust/AndroidLibXrayLite). For a quick start, read the guides for [Go Mobile](https://github.com/golang/go/wiki/Mobile) and [Makefiles for Go Developers](https://tutorialedge.net/golang/makefiles-for-go-developers/).
-- v2rayNG can run on Android Emulators. For WSA, VPN permission needs to be granted via `appops set [package name] ACTIVATE_VPN allow`.
-
-### 提示
-
-- V2rayNG 文件夹下的 Android 项目可直接在 Android Studio 中编译，或使用 Gradle wrapper 编译。但 aar 内置的 v2ray core（可能）已过时。
-- aar 可由 Golang 项目 [AndroidLibV2rayLite](https://github.com/2dust/AndroidLibV2rayLite) 或 [AndroidLibXrayLite](https://github.com/2dust/AndroidLibXrayLite) 编译而成。快速入门可参考 [Go Mobile](https://github.com/golang/go/wiki/Mobile) 指南和 [Makefiles for Go Developers](https://tutorialedge.net/golang/makefiles-for-go-developers/)。
-- v2rayNG 可在 Android 模拟器上运行。对于 WSA，需要通过 `appops set [package name] ACTIVATE_VPN allow` 授予 VPN 权限。
+- کانال تلگرام / Telegram channel: [@gozartahrim](https://t.me/gozartahrim)
+- خرید سرویس / Buy a service: [@gozartahrimbot](https://t.me/gozartahrimbot)
+- پشتیبانی / Support: [@mehrzero](https://t.me/mehrzero)
 
 ---
 
+## پروژه‌ی اصلی / Upstream
 
-## GPG Verification / GPG 签名校验
+این پروژه فورکی از [2dust/v2rayNG](https://github.com/2dust/v2rayNG) است. برای مشکلات مربوط به خودِ هسته‌ی برنامه — نه قابلیت‌های اضافه‌شده‌ی این فورک — به مخزن اصلی مراجعه کنید. راهنمای عمومی استفاده در [ویکی پروژه‌ی اصلی](https://github.com/2dust/v2rayNG/wiki) موجود است.
 
-Release files are signed with GPG to verify authenticity and integrity, helping prevent mirror, ISP, or CDN hijacking.
+This is a fork of [2dust/v2rayNG](https://github.com/2dust/v2rayNG). For issues in the core app itself — as opposed to this fork's added features — please refer to the upstream repository.
 
-发布文件已使用 GPG 签名，可用于校验文件真实性与完整性，预防镜像站、运营商或 CDN 劫持。
+## مجوز / License
 
-### Fingerprint / 公钥指纹
-
-```text
-7694 5E9F 3E9A 168F 8070 F195 805D 661C
-134D FAF6 8903 C199 463C 31E5 AE90 3AE0
-```
-
----
-
-## Community / 社区
-
-Telegram Group / Telegram 群组：
-
-[https://t.me/v2rayN](https://t.me/v2rayN)
-
-Telegram Channel / Telegram 频道：
-
-[https://t.me/github_2dust](https://t.me/github_2dust)
+مانند پروژه‌ی اصلی تحت [GPL-3.0](LICENSE) منتشر می‌شود. Released under GPL-3.0, same as upstream.

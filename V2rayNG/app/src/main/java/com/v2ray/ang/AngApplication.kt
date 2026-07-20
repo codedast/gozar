@@ -43,5 +43,8 @@ class AngApplication : Application() {
 
         // Initialize theme state from MMKV
         ThemeManager.refresh()
+
+        // GozarTahrim: schedule the Telegram channel poll + auto-connect checks
+        com.v2ray.ang.gozartahrim.GozarTahrimTaskScheduler.schedule(this)
     }
 }

@@ -149,6 +149,7 @@ class MainActivity : HelperBaseComponentActivity() {
     private fun navigateTo(destination: String) {
         val intent = when (destination) {
             "sub_setting" -> Intent(this, SubSettingActivity::class.java)
+            "gt_alt_ip_finder" -> Intent(this, com.v2ray.ang.gozartahrim.altip.AltIpFinderActivity::class.java)
             "per_app_proxy" -> Intent(this, PerAppProxyActivity::class.java)
             "routing_setting" -> Intent(this, RoutingSettingActivity::class.java)
             "user_asset" -> Intent(this, UserAssetActivity::class.java)

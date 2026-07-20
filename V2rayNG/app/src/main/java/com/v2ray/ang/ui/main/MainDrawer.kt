@@ -76,6 +76,8 @@ fun MainDrawerContent(onNavigate: (String) -> Unit) {
             DrawerMenuGroup(
                 items = listOf(
                     DrawerMenuItemData(R.drawable.ic_subscriptions_24dp, R.string.title_sub_setting, "sub_setting"),
+                    // GozarTahrim: find alternate Cloudflare front-IPs for the selected server
+                    DrawerMenuItemData(R.drawable.ic_routing_24dp, R.string.title_gt_alt_ip_finder, "gt_alt_ip_finder"),
                     DrawerMenuItemData(R.drawable.ic_per_apps_24dp, R.string.per_app_proxy_settings, "per_app_proxy"),
                     DrawerMenuItemData(R.drawable.ic_routing_24dp, R.string.routing_settings_title, "routing_setting"),
                     DrawerMenuItemData(R.drawable.ic_file_24dp, R.string.title_user_asset_setting, "user_asset"),

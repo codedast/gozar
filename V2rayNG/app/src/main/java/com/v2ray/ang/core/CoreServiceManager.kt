@@ -264,6 +264,16 @@ object CoreServiceManager {
             tunFd = 0
         }
 
+        // GozarTahrim (گذرتحریم): start the native random-chunk fragmentor if the
+        // experimental native engine is enabled. The default GozarTahrim mode instead
+        // works through Xray-core's built-in fragment engine and needs no local proxy.
+        try {
+            val gtPort = config.serverPort?.toIntOrNull() ?: 443
+            com.v2ray.ang.gfwknocker.GozarTahrimManager.start(config.server.orEmpty(), gtPort)
+        } catch (e: Exception) {
+            LogUtil.e(AppConfig.TAG, "GozarTahrim start failed", e)
+        }
+
         NotificationManager.showNotification(currentConfig)
         CoreNativeManager.reconcileBrowserDialer(dialerAddr)
         coreController.startLoop(result.content, tunFd)
@@ -287,6 +297,16 @@ object CoreServiceManager {
         MessageUtil.sendMsg2UI(service, AppConfig.MSG_STATE_START_SUCCESS, "")
         NotificationManager.startSpeedNotification()
         LogUtil.i(AppConfig.TAG, "StartCore-Manager: Core started successfully")
+
+        // GozarTahrim: the channel is only reachable once the tunnel is up, so check for new
+        // posts right after a successful connect (as well as on the periodic tick).
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                com.v2ray.ang.gozartahrim.TelegramChannelNotifyManager.checkForNewPost(service.applicationContext)
+            } catch (e: Exception) {
+                LogUtil.e(AppConfig.TAG, "GozarTahrim: telegram check after connect failed", e)
+            }
+        }
     }
 
     /**
@@ -305,6 +325,13 @@ object CoreServiceManager {
                     LogUtil.e(AppConfig.TAG, "StartCore-Manager: Failed to stop V2Ray loop", e)
                 }
             }
+        }
+
+        // GozarTahrim: stop the native fragmentor if it was running
+        try {
+            com.v2ray.ang.gfwknocker.GozarTahrimManager.stop()
+        } catch (e: Exception) {
+            LogUtil.e(AppConfig.TAG, "GozarTahrim stop failed", e)
         }
 
         // Close existing browser dialer

@@ -467,4 +467,55 @@
         <item>WebDAV</item>
     </string-array>
 
+    <!-- GozarTahrim -->
+    <string name="title_gt_alt_ip_finder">یافتن آی‌پی جایگزین</string>
+    <string name="title_gt_auto_connect_group">اتصال خودکار به بهترین سرور این گروه</string>
+    <string name="summary_gt_auto_connect_group">به‌صورت دوره‌ای سرورهای این گروه را تست می‌کند و خودکار به سریع‌ترین آن‌ها سوییچ می‌کند</string>
+    <string name="title_gt_tg_channel_news">اخبار کانال</string>
+
+    <string name="title_gt_extras_settings">امکانات گذرتحریم</string>
+    <string name="title_pref_gt_tg_enabled">اعلان پست‌های کانال تلگرام</string>
+    <string name="summary_pref_gt_tg_enabled">پست‌های جدید کانال گذرتحریم را به من اطلاع بده</string>
+    <string name="title_pref_gt_tg_channel">نام کاربری کانال</string>
+    <string name="title_pref_gt_autoconnect_interval">فاصله‌ی هر بررسی اتصال خودکار (دقیقه)</string>
+    <string name="title_pref_gt_autoconnect_batch">تعداد سرور تست‌شده در هر بررسی</string>
+    <string name="title_pref_gt_altip_fofa_key">کلید اختصاصی FOFA (اختیاری)</string>
+    <string name="title_pref_gt_altip_timeout">مهلت تست آی‌پی (میلی‌ثانیه)</string>
+
+    <string name="title_gt_settings">تکه‌تکه‌سازی گذرتحریم</string>
+    <string name="title_pref_gt_enabled">فعال‌سازی گذرتحریم</string>
+    <string name="summary_pref_gt_enabled">بسته‌ی ClientHello را به تکه‌های تصادفی می‌شکند تا از فیلترینگ مبتنی بر SNI عبور کند</string>
+    <string name="title_pref_gt_num_fragment">تعداد تکه‌ها</string>
+    <string name="title_pref_gt_fragment_sleep">تأخیر بین تکه‌ها (میلی‌ثانیه)</string>
+    <string name="title_pref_gt_native_proxy">استفاده از موتور تکه‌کننده‌ی داخلی</string>
+    <string name="summary_pref_gt_native_proxy">به‌جای موتور Xray، تکه‌کننده‌ی داخلی برنامه را اجرا کن (آزمایشی)</string>
+
+    <!-- Alt IP Finder screen -->
+    <string name="gt_altip_no_server">هیچ سروری انتخاب نشده است. ابتدا یک سرور انتخاب کنید.</string>
+    <string name="gt_altip_unsupported">این قابلیت فقط برای سرورهای VLESS پشت Cloudflare کار می‌کند.</string>
+    <string name="gt_altip_server_label">سرور: %1$s</string>
+    <string name="gt_altip_sni_label">SNI: %1$s</string>
+    <string name="gt_altip_query">عبارت جستجوی FOFA</string>
+    <string name="gt_altip_sample_count">تعداد نمونه از هر منبع</string>
+    <string name="gt_altip_concurrency">تعداد تست هم‌زمان</string>
+    <string name="gt_altip_start">شروع جستجو</string>
+    <string name="gt_altip_cancel">لغو</string>
+    <string name="gt_altip_progress">%1$d از %2$d تست شد</string>
+    <string name="gt_altip_cancelled">لغو شد</string>
+    <string name="gt_altip_fetching_cf">در حال دریافت محدوده‌های Cloudflare…</string>
+    <string name="gt_altip_searching_fofa">در حال جستجو در FOFA…</string>
+    <string name="gt_altip_none_found">هیچ آی‌پی‌ای پیدا نشد. اگر متصل نیستید ابتدا به یک سرور وصل شوید — دسترسی به cloudflare.com و fofa.info فیلتر است.</string>
+    <string name="gt_altip_testing">در حال تست %1$d آی‌پی</string>
+    <string name="gt_altip_saved">%1$d آی‌پی سالم در گروه «%2$s» ذخیره شد.</string>
+    <string name="gt_altip_none_valid">هیچ آی‌پی سالمی پیدا نشد.</string>
+    <string name="gt_altip_error">خطا: %1$s</string>
+
+    <!-- Channel / support popup -->
+    <string name="gt_promo_message">برای پشتیبانی بیشتر و خرید سرویس وارد کانال و دایرکت شوید.</string>
+    <string name="gt_promo_handles">کانال: @%1$s\nربات: @%2$s\nادمین: @%3$s</string>
+    <string name="gt_promo_channel">کانال تلگرام</string>
+    <string name="gt_promo_bot">خرید سرویس (ربات)</string>
+    <string name="gt_promo_admin">پشتیبانی (ادمین)</string>
+    <string name="gt_promo_close">بستن</string>
+
 </resources>

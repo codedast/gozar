@@ -215,6 +215,9 @@ fun MainScreen(
         QRCodeDialog(bitmap = showQRCodeBitmap, onDismiss = { showQRCodeBitmap = null })
     }
 
+    // GozarTahrim: one-time Telegram channel introduction
+    com.v2ray.ang.gozartahrim.TelegramPromoDialog()
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {

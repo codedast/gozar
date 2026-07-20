@@ -8,6 +8,8 @@ plugins {
 android {
     namespace = "com.v2ray.ang"
     compileSdk = 37
+    // GozarTahrim: pin to the build-tools revision installed via mirror (avoids AGP's default 36.0.0)
+    buildToolsVersion = "37.0.0"
 
     defaultConfig {
         applicationId = "com.v2ray.ang"
