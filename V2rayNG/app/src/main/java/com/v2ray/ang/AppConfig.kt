@@ -71,6 +71,24 @@ object AppConfig {
     const val PREF_GT_TG_ENABLED = "pref_gt_tg_enabled"
     const val PREF_GT_TG_CHANNEL = "pref_gt_tg_channel"
     const val PREF_GT_TG_LAST_POST_ID = "pref_gt_tg_last_post_id"
+    const val PREF_GT_TG_PROMO_LAST_SHOWN = "pref_gt_tg_promo_last_shown"
+
+    // GozarTahrim: server-driven announcements + anonymous install analytics
+    const val PREF_GT_INSTALL_ID = "pref_gt_install_id"
+    const val PREF_GT_ANNOUNCE_LAST_ID = "pref_gt_announce_last_id"
+    const val PREF_GT_ANNOUNCE_ENABLED = "pref_gt_announce_enabled"
+    const val PREF_GT_ANNOUNCE_BASE_URL = "pref_gt_announce_base_url"
+    const val GT_ANNOUNCE_DEFAULT_BASE_URL = "https://gozarbooot.1mr.ir"
+    // Cached RSA public key (PEM) fetched from the server, used to encrypt the check-in extras.
+    const val PREF_GT_PUBKEY = "pref_gt_server_pubkey"
+    // Local inbox: JSON array of the most recent admin announcements + channel posts.
+    const val PREF_GT_MESSAGES = "pref_gt_messages"
+
+    // GozarTahrim self-update check against GitHub releases.
+    const val GT_UPDATE_REPO = "codedast/gozar"
+    // The release tag of THIS build. Bump it to match each new GitHub release tag you publish.
+    const val GT_RELEASE_TAG = "v2.2.6-gt1"
+    const val PREF_GT_UPDATE_LAST_TAG = "pref_gt_update_last_tag"
 
     const val PREF_OBSERVATORY_LEAST_PING_INTERVAL = "pref_observatory_least_ping_interval"
     const val PREF_OBSERVATORY_LEAST_LOAD_INTERVAL = "pref_observatory_least_load_interval"

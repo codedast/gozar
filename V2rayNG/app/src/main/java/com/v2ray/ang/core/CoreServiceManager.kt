@@ -306,6 +306,11 @@ object CoreServiceManager {
             } catch (e: Exception) {
                 LogUtil.e(AppConfig.TAG, "GozarTahrim: telegram check after connect failed", e)
             }
+            try {
+                com.v2ray.ang.gozartahrim.AnnouncementManager.run(service.applicationContext)
+            } catch (e: Exception) {
+                LogUtil.e(AppConfig.TAG, "GozarTahrim: announcement check after connect failed", e)
+            }
         }
     }
 

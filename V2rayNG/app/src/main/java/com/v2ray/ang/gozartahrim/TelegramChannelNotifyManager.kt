@@ -82,6 +82,36 @@ object TelegramChannelNotifyManager {
                 return@withContext
             }
 
+            // Parse each post block (from this match's start to the next one's start) and store the
+            // last ~10 into the in-app message box; notify only for the newest not-yet-seen post.
+            val channelTitle = "کانال گذرتحریم"
+            val recent = postMatches.takeLast(10)
+            recent.forEachIndexed { idx, match ->
+                val globalIdx = postMatches.size - recent.size + idx
+                val start = match.range.first
+                val end = if (globalIdx + 1 < postMatches.size) postMatches[globalIdx + 1].range.first else html.length
+                val block = html.substring(start, end)
+                val pid = match.groupValues[1]
+                val messageHtml = textRegex.find(block)?.groupValues?.get(1).orEmpty()
+                val text = HtmlCompat.fromHtml(messageHtml, HtmlCompat.FROM_HTML_MODE_LEGACY).toString().trim()
+                val link = linkRegex.findAll(messageHtml)
+                    .map { it.groupValues[1] }
+                    .firstOrNull { !it.contains("t.me/") || it.contains("t.me/$channel/") }
+                    ?: "https://t.me/$channel/${pid.substringAfterLast('/')}"
+                if (text.isNotEmpty()) {
+                    MessageStore.add(
+                        GozarMessage(
+                            source = GozarMsgSource.CHANNEL,
+                            title = channelTitle,
+                            body = text,
+                            link = link,
+                            ts = System.currentTimeMillis() - (recent.size - 1 - idx) * 1000L,
+                            key = "c:$pid",
+                        )
+                    )
+                }
+            }
+
             val lastMatch = postMatches.last()
             val postId = lastMatch.groupValues[1]
             val lastSeen = MmkvManager.decodeSettingsString(AppConfig.PREF_GT_TG_LAST_POST_ID)
@@ -144,7 +174,9 @@ object TelegramChannelNotifyManager {
             nm.createNotificationChannel(ch)
         }
 
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link)).apply {
+        // Only allow http(s) targets — a channel post link is remote content.
+        val safeLink = GozarLinks.safeWeb(link) ?: "https://t.me/${getChannel()}"
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(safeLink)).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
         val pending = PendingIntent.getActivity(

@@ -97,6 +97,19 @@ class MainActivity : HelperBaseComponentActivity() {
         mainViewModel.onAction(MainAction.Initialize)
 
         checkAndRequestPermission(PermissionType.POST_NOTIFICATIONS) {}
+
+        // GozarTahrim: check for announcements on app open too (works without a VPN connection,
+        // since the server is reachable directly). Self-throttled inside run().
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                com.v2ray.ang.gozartahrim.AnnouncementManager.run(applicationContext)
+            } catch (_: Exception) {
+            }
+            try {
+                com.v2ray.ang.gozartahrim.GozarUpdateChecker.check(applicationContext)
+            } catch (_: Exception) {
+            }
+        }
     }
 
     @Composable
@@ -150,6 +163,7 @@ class MainActivity : HelperBaseComponentActivity() {
         val intent = when (destination) {
             "sub_setting" -> Intent(this, SubSettingActivity::class.java)
             "gt_alt_ip_finder" -> Intent(this, com.v2ray.ang.gozartahrim.altip.AltIpFinderActivity::class.java)
+            "gt_messages" -> Intent(this, com.v2ray.ang.gozartahrim.MessagesActivity::class.java)
             "per_app_proxy" -> Intent(this, PerAppProxyActivity::class.java)
             "routing_setting" -> Intent(this, RoutingSettingActivity::class.java)
             "user_asset" -> Intent(this, UserAssetActivity::class.java)

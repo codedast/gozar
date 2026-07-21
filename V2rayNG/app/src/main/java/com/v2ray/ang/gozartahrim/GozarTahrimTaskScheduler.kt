@@ -46,9 +46,19 @@ object GozarTahrimTaskScheduler {
                 LogUtil.e(AppConfig.TAG, "$TAG: telegram check failed", e)
             }
             try {
+                AnnouncementManager.run(applicationContext)
+            } catch (e: Exception) {
+                LogUtil.e(AppConfig.TAG, "$TAG: announcement check failed", e)
+            }
+            try {
                 AutoConnectManager.checkAndSwitch()
             } catch (e: Exception) {
                 LogUtil.e(AppConfig.TAG, "$TAG: auto-connect check failed", e)
+            }
+            try {
+                GozarUpdateChecker.check(applicationContext)
+            } catch (e: Exception) {
+                LogUtil.e(AppConfig.TAG, "$TAG: update check failed", e)
             }
             return Result.success()
         }

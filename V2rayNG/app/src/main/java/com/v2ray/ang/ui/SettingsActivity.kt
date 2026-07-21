@@ -14,7 +14,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
@@ -94,6 +97,8 @@ fun SettingsScreen(
 
     // GozarTahrim extras: Telegram notifications, auto-connect, Alt IP Finder
     var gtTgEnabled by rememberMmkvBool(AppConfig.PREF_GT_TG_ENABLED, true)
+    var gtAnnounceEnabled by rememberMmkvBool(AppConfig.PREF_GT_ANNOUNCE_ENABLED, true)
+    var gtAnnounceBaseUrl by rememberMmkvString(AppConfig.PREF_GT_ANNOUNCE_BASE_URL, AppConfig.GT_ANNOUNCE_DEFAULT_BASE_URL)
     var gtTgChannel by rememberMmkvString(AppConfig.PREF_GT_TG_CHANNEL, com.v2ray.ang.gozartahrim.GT_CHANNEL_NAME)
     var gtAutoConnectInterval by rememberMmkvString(AppConfig.PREF_GT_AUTOCONNECT_INTERVAL, "30")
     var gtAutoConnectBatch by rememberMmkvString(AppConfig.PREF_GT_AUTOCONNECT_BATCH, "5")
@@ -505,6 +510,32 @@ fun SettingsScreen(
                 checked = gtTgEnabled,
                 onCheckedChange = { gtTgEnabled = it }
             )
+            SettingsSwitchItem(
+                title = stringResource(R.string.title_pref_gt_announce_enabled),
+                summary = stringResource(R.string.summary_pref_gt_announce_enabled),
+                checked = gtAnnounceEnabled,
+                onCheckedChange = { gtAnnounceEnabled = it }
+            )
+            SettingsEditItem(
+                title = stringResource(R.string.title_pref_gt_announce_base_url),
+                value = gtAnnounceBaseUrl,
+                enabled = gtAnnounceEnabled,
+                onValueChanged = { gtAnnounceBaseUrl = it }
+            )
+            run {
+                val gtCtx = LocalContext.current
+                val gtScope = rememberCoroutineScope()
+                SettingsMenuItem(
+                    title = stringResource(R.string.title_pref_gt_announce_test),
+                    subtitle = stringResource(R.string.summary_pref_gt_announce_test),
+                    onClick = {
+                        gtScope.launch {
+                            val result = com.v2ray.ang.gozartahrim.AnnouncementManager.testNow(gtCtx)
+                            android.widget.Toast.makeText(gtCtx, result, android.widget.Toast.LENGTH_LONG).show()
+                        }
+                    }
+                )
+            }
             SettingsEditItem(
                 title = stringResource(R.string.title_pref_gt_tg_channel),
                 value = gtTgChannel,

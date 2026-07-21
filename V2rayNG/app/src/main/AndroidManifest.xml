@@ -133,6 +133,9 @@
             android:name=".gozartahrim.altip.AltIpFinderActivity"
             android:exported="false" />
         <activity
+            android:name=".gozartahrim.MessagesActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.RoutingSettingActivity"
             android:exported="false" />
         <activity

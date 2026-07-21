@@ -472,6 +472,20 @@
     <string name="title_gt_auto_connect_group">اتصال خودکار به بهترین سرور این گروه</string>
     <string name="summary_gt_auto_connect_group">به‌صورت دوره‌ای سرورهای این گروه را تست می‌کند و خودکار به سریع‌ترین آن‌ها سوییچ می‌کند</string>
     <string name="title_gt_tg_channel_news">اخبار کانال</string>
+    <string name="title_gt_announcements">اعلان‌ها</string>
+    <string name="title_pref_gt_announce_enabled">اعلان‌های داخل برنامه</string>
+    <string name="summary_pref_gt_announce_enabled">نمایش اطلاعیه‌ها و به‌روزرسانی‌های تیم گذرتحریم</string>
+    <string name="title_pref_gt_announce_base_url">آدرس سرور اعلان</string>
+    <string name="title_pref_gt_announce_test">تست فوری اعلان</string>
+    <string name="summary_pref_gt_announce_test">همین حالا سرور را بررسی و اعلان فعلی را نمایش بده</string>
+    <string name="title_gt_messages">پیام‌ها</string>
+    <string name="gt_messages_empty">هنوز پیامی نیست.</string>
+    <string name="gt_msg_label_admin">پیام ادمین</string>
+    <string name="gt_msg_label_channel">کانال گذرتحریم</string>
+    <string name="gt_messages_clear">پاک کردن همه</string>
+    <string name="gt_messages_clear_confirm">همه‌ی پیام‌ها از صندوق حذف شوند؟</string>
+    <string name="title_gt_update">به‌روزرسانی گذرتحریم</string>
+    <string name="gt_update_available">نسخه‌ی جدید (%1$s) منتشر شده. برای دریافت آخرین نسخه‌ی گذرتحریم بزنید.</string>
 
     <string name="title_gt_extras_settings">امکانات گذرتحریم</string>
     <string name="title_pref_gt_tg_enabled">اعلان پست‌های کانال تلگرام</string>

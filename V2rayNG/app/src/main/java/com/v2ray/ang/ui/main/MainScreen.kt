@@ -268,7 +268,8 @@ fun MainScreen(
                     isRunning = isRunning,
                     isDarkTheme = isDarkTheme,
                     onTestClick = onTestClick,
-                    onFabClick = onFabClick
+                    onFabClick = onFabClick,
+                    onMessagesClick = { onNavigate("gt_messages") }
                 )
             },
             floatingActionButton = {},

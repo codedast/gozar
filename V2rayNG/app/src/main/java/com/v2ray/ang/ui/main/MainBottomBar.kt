@@ -14,9 +14,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,7 +40,8 @@ fun MainBottomBar(
     isRunning: Boolean,
     isDarkTheme: Boolean,
     onTestClick: () -> Unit,
-    onFabClick: () -> Unit
+    onFabClick: () -> Unit,
+    onMessagesClick: () -> Unit = {}
 ) {
     Box(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.fillMaxWidth()) {
@@ -62,24 +66,40 @@ fun MainBottomBar(
                 }
             }
         }
-        FloatingActionButton(
-            onClick = onFabClick,
+        Row(
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(end = 24.dp)
                 .offset(y = (-28).dp)
                 .navigationBarsPadding(),
-            containerColor = if (isRunning) colorFabActive
-            else if (isDarkTheme) colorFabInactiveDark
-            else colorFabInactiveLight
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                painter = if (isRunning) painterResource(R.drawable.ic_stop_24dp)
-                else painterResource(R.drawable.ic_play_24dp),
-                contentDescription = if (isRunning) "Stop" else "Start",
-                tint = Color.White,
-                modifier = Modifier.size(24.dp)
-            )
+            // GozarTahrim: smaller "messages" button next to the connect button.
+            SmallFloatingActionButton(
+                onClick = onMessagesClick,
+                containerColor = MaterialTheme.colorScheme.secondaryContainer
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_promotion_24dp),
+                    contentDescription = "Messages",
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+            Spacer(modifier = Modifier.width(14.dp))
+            FloatingActionButton(
+                onClick = onFabClick,
+                containerColor = if (isRunning) colorFabActive
+                else if (isDarkTheme) colorFabInactiveDark
+                else colorFabInactiveLight
+            ) {
+                Icon(
+                    painter = if (isRunning) painterResource(R.drawable.ic_stop_24dp)
+                    else painterResource(R.drawable.ic_play_24dp),
+                    contentDescription = if (isRunning) "Stop" else "Start",
+                    tint = Color.White,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
         }
     }
 }
