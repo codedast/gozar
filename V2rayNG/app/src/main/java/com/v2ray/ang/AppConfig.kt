@@ -87,7 +87,7 @@ object AppConfig {
     // GozarTahrim self-update check against GitHub releases.
     const val GT_UPDATE_REPO = "codedast/gozar"
     // The release tag of THIS build. Bump it to match each new GitHub release tag you publish.
-    const val GT_RELEASE_TAG = "v2.2.6-gt1"
+    const val GT_RELEASE_TAG = "v2.2.7-gt1"
     const val PREF_GT_UPDATE_LAST_TAG = "pref_gt_update_last_tag"
 
     const val PREF_OBSERVATORY_LEAST_PING_INTERVAL = "pref_observatory_least_ping_interval"
